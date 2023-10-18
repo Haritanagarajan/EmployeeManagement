@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement.Persistence.IRepository
 {
-    internal interface IRepository<T>
+    public interface IRepository<T>
     {
-      
+        T GetById(int id);
+        void Add(T entity);
+        void Update(T entity);
+        void Delete(T entity);
+        IEnumerable<T> GetAll();
 
     }
 }

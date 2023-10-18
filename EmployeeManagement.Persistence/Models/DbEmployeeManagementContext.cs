@@ -31,7 +31,7 @@ public partial class DbEmployeeManagementContext : DbContext
     {
         modelBuilder.Entity<DepartmentMaster>(entity =>
         {
-            entity.HasKey(e => e.DepartmentId).HasName("PK__Departme__B2079BED0538138E");
+            entity.HasKey(e => e.Id).HasName("PK__Departme__3214EC07CB516A61");
 
             entity.ToTable("DepartmentMaster");
 
@@ -42,7 +42,7 @@ public partial class DbEmployeeManagementContext : DbContext
 
         modelBuilder.Entity<DesignationMaster>(entity =>
         {
-            entity.HasKey(e => e.DesignationId).HasName("PK__Designat__BABD60DEE73CBDFB");
+            entity.HasKey(e => e.Id).HasName("PK__Designat__3214EC0796342CAB");
 
             entity.ToTable("DesignationMaster");
 
@@ -52,12 +52,12 @@ public partial class DbEmployeeManagementContext : DbContext
 
             entity.HasOne(d => d.Department).WithMany(p => p.DesignationMasters)
                 .HasForeignKey(d => d.DepartmentId)
-                .HasConstraintName("FK__Designati__Depar__38996AB5");
+                .HasConstraintName("FK__Designati__Depar__4E88ABD4");
         });
 
         modelBuilder.Entity<EmployeeMaster>(entity =>
         {
-            entity.HasKey(e => e.EmployeeId).HasName("PK__Employee__7AD04F1165B3079F");
+            entity.HasKey(e => e.Id).HasName("PK__Employee__3214EC0770A0383B");
 
             entity.ToTable("EmployeeMaster");
 
@@ -97,26 +97,26 @@ public partial class DbEmployeeManagementContext : DbContext
 
             entity.HasOne(d => d.Department).WithMany(p => p.EmployeeMasters)
                 .HasForeignKey(d => d.DepartmentId)
-                .HasConstraintName("FK__EmployeeM__Depar__44FF419A");
+                .HasConstraintName("FK__EmployeeM__Depar__5629CD9C");
 
             entity.HasOne(d => d.Designation).WithMany(p => p.EmployeeMasters)
                 .HasForeignKey(d => d.DesignationId)
-                .HasConstraintName("FK__EmployeeM__Desig__45F365D3");
+                .HasConstraintName("FK__EmployeeM__Desig__571DF1D5");
         });
 
         modelBuilder.Entity<SalaryMaster>(entity =>
         {
-            entity.HasKey(e => e.SalaryId).HasName("PK__SalaryMa__4BE20457D104C363");
+            entity.HasKey(e => e.Id).HasName("PK__SalaryMa__3214EC0772B9E592");
 
             entity.ToTable("SalaryMaster");
 
             entity.HasOne(d => d.Department).WithMany(p => p.SalaryMasters)
                 .HasForeignKey(d => d.DepartmentId)
-                .HasConstraintName("FK__SalaryMas__Depar__3B75D760");
+                .HasConstraintName("FK__SalaryMas__Depar__5165187F");
 
             entity.HasOne(d => d.Designation).WithMany(p => p.SalaryMasters)
                 .HasForeignKey(d => d.DesignationId)
-                .HasConstraintName("FK__SalaryMas__Desig__3C69FB99");
+                .HasConstraintName("FK__SalaryMas__Desig__52593CB8");
         });
 
         OnModelCreatingPartial(modelBuilder);

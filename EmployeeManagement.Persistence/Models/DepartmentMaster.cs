@@ -5,7 +5,7 @@ namespace EmployeeManagement.Persistence.Models;
 
 public partial class DepartmentMaster
 {
-    public int DepartmentId { get; set; }
+    public int Id { get; set; }
 
     public string? Departmentname { get; set; }
 
