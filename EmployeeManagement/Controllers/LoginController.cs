@@ -1,4 +1,5 @@
-﻿using EmployeeManagement.Persistence.Models;
+﻿#nullable disable
+using EmployeeManagement.Persistence.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,10 +20,9 @@ namespace EmployeeManagement.Api.Controllers
         {
             _context = context;
         }
-
-        //[AllowAnonymous]
-        [HttpPost]
-        public IActionResult Login([FromBody] LoginDetailsModel loginDetails)
+        [AllowAnonymous]
+        [HttpPost("TokenGenerate")]
+        public IActionResult Login([FromForm] LoginDetailsModel loginDetails)
         {
             var employee = _context.EmployeeMasters.FirstOrDefault(x => x.Username == loginDetails.Username && x.Password == loginDetails.Password);
             if (employee == null)
@@ -38,7 +38,7 @@ namespace EmployeeManagement.Api.Controllers
                 IActionResult token = GetToken(employee);
                 if (token is OkObjectResult objectResult)
                 {
-                    string? jwtToken = objectResult.Value?.ToString();
+                    string jwtToken = objectResult.Value?.ToString();
                     var response = new Persistence.Models.LoginTokenDetails
                     {
                         Username = loginDetails.Username,
@@ -62,14 +62,12 @@ namespace EmployeeManagement.Api.Controllers
         public IActionResult GetToken(EmployeeMaster employee)
         {
             var username = employee.Username;
-
             var userRole = "no role";
-
             if (username == "Administrator")
             {
                 userRole = "Admin";
             }
-            else if (username != "Administartor")
+            else if(username != "Administrator")
             {
                 userRole = "Employee";
             }
@@ -78,16 +76,14 @@ namespace EmployeeManagement.Api.Controllers
                 return BadRequest("User does not have a role.");
             }
 
-            var key = "erdf7QSu4l8CZg5p6X3Pna9L0Miy4D3Bvt0JVr87UcOj69Kqw5R2Nmf4FWs05Dsa";
+            var key = "erdf7QSu4l8CZg5p6X3Pna9L0Miy4D3Bvt0JVr87UcOj69Kqw5R2Nmf4FWs05hri";
             var creds = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)), SecurityAlgorithms.HmacSha256);
-
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, employee.Username),
                 new Claim(ClaimTypes.Role, userRole),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
-
             var token = new JwtSecurityToken(
                 issuer: "JWTAuthenticationServer",
                 audience: "JWTServicePostmanClient",
@@ -95,7 +91,6 @@ namespace EmployeeManagement.Api.Controllers
                 expires: DateTime.Now.AddDays(1),
                 signingCredentials: creds
                 );
-
             var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
             return Ok(jwtToken);
         }

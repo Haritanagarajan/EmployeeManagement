@@ -36,10 +36,9 @@ namespace EmployeeManagement.Persistence.Repository
             _entity.Add(entity);
             _context.SaveChanges();
         }
-
         public void Update(T entity)
         {
-            _entity.Entry(entity).State = EntityState.Modified;
+            _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
         }
 

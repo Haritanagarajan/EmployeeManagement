@@ -8,7 +8,6 @@ namespace EmployeeManagement.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class EmployeeController : ControllerBase
     {
 
@@ -20,13 +19,15 @@ namespace EmployeeManagement.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetAllEmployeeMaster()
         {
             var response = _employee.GetAllEmployeeMaster();
             return Ok(response);
         }
 
-        [HttpGet]
+        [HttpGet("{Id}")]
+        [Authorize(Roles = "Employee")]
         public IActionResult GetEmployeeById(int Id)
         {
             var response = _employee.GetEmployeeMasterById(Id);
@@ -34,7 +35,8 @@ namespace EmployeeManagement.Api.Controllers
         }
 
         [HttpPut]
-        public IActionResult EditEmployeeMaster(EmployeeMaster employee)
+        [Authorize(Roles ="Employee")]
+        public IActionResult EditEmployeeMaster([FromForm] EmployeeMaster employee)
         {
             _employee.EditEmployeeMaster(employee);
             var response = new Responce
@@ -46,7 +48,8 @@ namespace EmployeeManagement.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateEmployeeMaster(EmployeeMaster employee)
+        [Authorize(Roles = "Admin")]
+        public IActionResult CreateEmployeeMaster([FromForm] EmployeeMaster employee)
         {
             _employee.CreateEmployeeMaster(employee);
             var response = new Responce
@@ -58,6 +61,7 @@ namespace EmployeeManagement.Api.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteEmployeeMaster(EmployeeMaster employee)
         {
             _employee.DeleteEmployeeMaster(employee);
