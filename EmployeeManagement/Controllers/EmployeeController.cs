@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {
@@ -34,11 +34,24 @@ namespace EmployeeManagement.Api.Controllers
             return Ok(response);
         }
 
-        [HttpPut]
+        //[HttpPut]
+        [HttpPut("{id}")]
         [Authorize(Roles ="Employee")]
-        public IActionResult EditEmployeeMaster([FromForm] EmployeeMaster employee)
+        public IActionResult EditEmployeeMaster(int id ,EmployeeMaster employee)
         {
+            if (id != employee.Id)
+            {
+                var failer = new Responce
+                {
+                    Status = "Failed to pass id",
+                    Title = "Failed to Edit Employee",
+                };
+
+                return Ok(failer);
+            }
+
             _employee.EditEmployeeMaster(employee);
+
             var response = new Responce
             {
                 Status = "Success",

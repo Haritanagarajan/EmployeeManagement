@@ -38,16 +38,11 @@ namespace EmployeeManagement.Persistence.Repository
         }
         public void Update(T entity)
         {
-            T exist = _context.Set<T>().Find(entity);
-            //_context.Entry(exist).CurrentValues.SetValues(entity);
-            //return Task.CompletedTask;
-
-            _context.Entry(exist).State = EntityState.Modified;
+            _context.Entry(entity).State = EntityState.Modified;
+            //_context. Set<T>() = EntityState.Modified;
+            //_entity.Update(entity);
             _context.SaveChanges();
         }
-
-
-
 
         public void Delete(T entity)
         {
