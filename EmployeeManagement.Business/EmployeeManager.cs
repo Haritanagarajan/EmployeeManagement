@@ -1,5 +1,6 @@
 ﻿using EmployeeManagement.Persistence.IRepository;
 using EmployeeManagement.Persistence.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagement.Business
 {
@@ -29,6 +30,7 @@ namespace EmployeeManagement.Business
 
         public void EditEmployeeMaster(EmployeeMaster employee)
         {
+            
             _employeeMaster.Update(employee);
         }
 
