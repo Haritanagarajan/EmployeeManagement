@@ -22,7 +22,7 @@ namespace EmployeeManagement.Api.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult GetAllEmployeeMaster()
         {
-            //throw new Exception("Custom Exception");
+           //throw new Exception("Custom Exception");
             var response = _employee.GetAllEmployeeMaster();
             return Ok(response);
         }

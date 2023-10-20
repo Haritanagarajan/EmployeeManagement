@@ -6,12 +6,10 @@ using EmployeeManagement.Persistence.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
 //jwt
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -27,14 +25,42 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("erdf7QSu4l8CZg5p6X3Pna9L0Miy4D3Bvt0JVr87UcOj69Kqw5R2Nmf4FWs05hri")),
         };
     });
-//jwt
 builder.Services.AddAuthorization();
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-//Configure the Sql Server Database ConnectionStrings
+//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(option =>
+{
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
+//filters
+builder.Services.AddMvc(options =>
+{
+    options.Filters.Add(typeof(GlobalExceptionalFilters));
+});
 builder.Services.AddDbContext<DbEmployeeManagementContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("mvcConnection")));
 //DI Container
@@ -42,24 +68,16 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(EmployeeManager));
 builder.Services.AddScoped(typeof(DepartmentManager));
 builder.Services.AddScoped(typeof(DesignationManager));
-//builder.Services.AddScoped<GlobalException>();
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-//jwt
 app.UseAuthentication();
-//jwt
 app.UseAuthorization();
 app.UseHttpsRedirection();
-//middleware
-app.UseMiddleware<GlobalException>();
+//app.UseMiddleware<GlobalException>();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
