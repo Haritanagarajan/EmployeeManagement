@@ -19,9 +19,10 @@ namespace EmployeeManagement.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult GetAllEmployeeMaster()
         {
+            throw new Exception("Custom Exception");
             var response = _employee.GetAllEmployeeMaster();
             return Ok(response);
         }
@@ -34,10 +35,9 @@ namespace EmployeeManagement.Api.Controllers
             return Ok(response);
         }
 
-        //[HttpPut]
         [HttpPut("{id}")]
-        [Authorize(Roles ="Employee")]
-        public IActionResult EditEmployeeMaster(int id ,EmployeeMaster employee)
+        [Authorize(Roles = "Employee")]
+        public IActionResult EditEmployeeMaster(int id, EmployeeMaster employee)
         {
             if (id != employee.Id)
             {
@@ -73,10 +73,20 @@ namespace EmployeeManagement.Api.Controllers
             return Ok(response);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
-        public IActionResult DeleteEmployeeMaster(EmployeeMaster employee)
+        public IActionResult DeleteEmployeeMaster(int id,EmployeeMaster employee)
         {
+            if (id != employee.Id)
+            {
+                var failer = new Responce
+                {
+                    Status = "Failed to pass id",
+                    Title = "Failed to Delete Employee",
+                };
+
+                return Ok(failer);
+            }
             _employee.DeleteEmployeeMaster(employee);
             var response = new Responce
             {

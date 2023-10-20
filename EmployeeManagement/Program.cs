@@ -1,3 +1,4 @@
+using EmployeeManagement.Api.GlobalException;
 using EmployeeManagement.Business;
 using EmployeeManagement.Persistence.IRepository;
 using EmployeeManagement.Persistence.Models;
@@ -52,7 +53,8 @@ app.UseAuthentication();
 //jwt
 app.UseAuthorization();
 app.UseHttpsRedirection();
-
+//middleware
+app.UseMiddleware<GlobalException>();
 app.UseAuthorization();
 
 app.MapControllers();
