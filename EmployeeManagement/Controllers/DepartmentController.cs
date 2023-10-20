@@ -8,90 +8,86 @@ namespace EmployeeManagement.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class EmployeeController : ControllerBase
+    [Authorize(Roles = "Admin")]
+    public class DepartmentController : ControllerBase
     {
 
-        private readonly EmployeeManager _employee;
+        private readonly DepartmentManager _departmentManager;
 
-        public EmployeeController(EmployeeManager employee)
+        public DepartmentController(DepartmentManager departmentManager)
         {
-            _employee = employee;
+            _departmentManager = departmentManager;
         }
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public IActionResult GetAllEmployeeMaster()
+        public IActionResult GetAllDepartmentMaster()
         {
-            //throw new Exception("Custom Exception");
-            var response = _employee.GetAllEmployeeMaster();
+            var response = _departmentManager.GetAllDepartmentMaster();
             return Ok(response);
         }
 
         [HttpGet("{Id}")]
-        [Authorize(Roles = "Employee")]
-        public IActionResult GetEmployeeById(int Id)
+        public IActionResult GetDepartmentMasterById(int Id)
         {
-            var response = _employee.GetEmployeeMasterById(Id);
+            var response = _departmentManager.GetDepartmentMaster(Id);
             return Ok(response);
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Employee")]
-        public IActionResult EditEmployeeMaster(int id, EmployeeMaster employee)
+        public IActionResult EditDepartmentMaster(int id, DepartmentMaster department)
         {
-            if (id != employee.Id)
+            if (id != department.Id)
             {
                 var failer = new Responce
                 {
                     Status = "Failed to pass id",
-                    Title = "Failed to Edit Employee",
+                    Title = "Failed to Edit department",
                 };
 
                 return Ok(failer);
             }
 
-            _employee.EditEmployeeMaster(employee);
+            _departmentManager.EditDepartmentMaster(department);
 
             var response = new Responce
             {
                 Status = "Success",
-                Title = "Edited Employee",
+                Title = "Edited department",
             };
             return Ok(response);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public IActionResult CreateEmployeeMaster(EmployeeMaster employee)
+        public IActionResult CreateDepartmentMaster(DepartmentMaster department)
         {
-            _employee.CreateEmployeeMaster(employee);
+            _departmentManager.CreateDepartmentMaster(department);
             var response = new Responce
             {
                 Status = "Success",
-                Title = "Create Employee",
+                Title = "Create department",
             };
             return Ok(response);
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
-        public IActionResult DeleteEmployeeMaster(int id,EmployeeMaster employee)
+        public IActionResult DeleteDepartmentMaster(int id, DepartmentMaster department)
         {
-            if (id != employee.Id)
+            if (id != department.Id)
             {
                 var failer = new Responce
                 {
                     Status = "Failed to pass id",
-                    Title = "Failed to Delete Employee",
+                    Title = "Failed to Delete department",
                 };
 
                 return Ok(failer);
             }
-            _employee.DeleteEmployeeMaster(employee);
+            _departmentManager.DeleteDepartmentMaster(department);
             var response = new Responce
             {
                 Status = "Success",
-                Title = "Deleted Employee",
+                Title = "Deleted department",
             };
             return Ok(response);
         }

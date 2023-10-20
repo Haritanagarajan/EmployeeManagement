@@ -8,90 +8,86 @@ namespace EmployeeManagement.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class EmployeeController : ControllerBase
+    [Authorize(Roles = "Admin")]
+    public class DesignationController : ControllerBase
     {
 
-        private readonly EmployeeManager _employee;
+        private readonly DesignationManager _designationManager;
 
-        public EmployeeController(EmployeeManager employee)
+        public DesignationController(DesignationManager designationManager)
         {
-            _employee = employee;
+            _designationManager = designationManager;
         }
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public IActionResult GetAllEmployeeMaster()
+        public IActionResult GetAllDesignationMaster()
         {
-            //throw new Exception("Custom Exception");
-            var response = _employee.GetAllEmployeeMaster();
+            var response = _designationManager.GetAllDesignationMaster();
             return Ok(response);
         }
 
         [HttpGet("{Id}")]
-        [Authorize(Roles = "Employee")]
-        public IActionResult GetEmployeeById(int Id)
+        public IActionResult GetDesignationMasterById(int Id)
         {
-            var response = _employee.GetEmployeeMasterById(Id);
+            var response = _designationManager.GetDesignationMaster(Id);
             return Ok(response);
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Employee")]
-        public IActionResult EditEmployeeMaster(int id, EmployeeMaster employee)
+        public IActionResult EditDesignationMaster(int id, DesignationMaster designation)
         {
-            if (id != employee.Id)
+            if (id != designation.Id)
             {
                 var failer = new Responce
                 {
                     Status = "Failed to pass id",
-                    Title = "Failed to Edit Employee",
+                    Title = "Failed to Edit designation",
                 };
 
                 return Ok(failer);
             }
 
-            _employee.EditEmployeeMaster(employee);
+            _designationManager.EditDesignationMaster(designation);
 
             var response = new Responce
             {
                 Status = "Success",
-                Title = "Edited Employee",
+                Title = "Edited designation",
             };
             return Ok(response);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public IActionResult CreateEmployeeMaster(EmployeeMaster employee)
+        public IActionResult CreateDesignationMaster(DesignationMaster designation)
         {
-            _employee.CreateEmployeeMaster(employee);
+            _designationManager.CreateDesignationMaster(designation);
             var response = new Responce
             {
                 Status = "Success",
-                Title = "Create Employee",
+                Title = "Create designation",
             };
             return Ok(response);
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
-        public IActionResult DeleteEmployeeMaster(int id,EmployeeMaster employee)
+        public IActionResult DeleteDesignationMaster(int id, DesignationMaster designation)
         {
-            if (id != employee.Id)
+            if (id != designation.Id)
             {
                 var failer = new Responce
                 {
                     Status = "Failed to pass id",
-                    Title = "Failed to Delete Employee",
+                    Title = "Failed to Delete designation",
                 };
 
                 return Ok(failer);
             }
-            _employee.DeleteEmployeeMaster(employee);
+            _designationManager.DeleteDesignationMaster(designation);
             var response = new Responce
             {
                 Status = "Success",
-                Title = "Deleted Employee",
+                Title = "Deleted designation",
             };
             return Ok(response);
         }
