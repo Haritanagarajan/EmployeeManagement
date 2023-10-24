@@ -22,13 +22,12 @@ namespace EmployeeManagement.Api.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult GetAllEmployeeMaster()
         {
-           //throw new Exception("Custom Exception");
             var response = _employee.GetAllEmployeeMaster();
             return Ok(response);
         }
 
         [HttpGet("{Id}")]
-        [Authorize(Roles = "Employee")]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetEmployeeById(int Id)
         {
             var response = _employee.GetEmployeeMasterById(Id);
@@ -36,8 +35,8 @@ namespace EmployeeManagement.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Employee")]
-        public IActionResult EditEmployeeMaster(int id, EmployeeMaster employee)
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditEmployeeMaster(int id, [FromBody]EmployeeMaster employee)
         {
             if (id != employee.Id)
             {

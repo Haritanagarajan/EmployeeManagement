@@ -57,10 +57,10 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 //filters
-builder.Services.AddMvc(options =>
-{
-    options.Filters.Add(typeof(GlobalExceptionalFilters));
-});
+//builder.Services.AddMvc(options =>
+//{
+//    options.Filters.Add(typeof(GlobalExceptionalFilters));
+//});
 builder.Services.AddDbContext<DbEmployeeManagementContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("mvcConnection")));
 //DI Container
@@ -68,6 +68,17 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(EmployeeManager));
 builder.Services.AddScoped(typeof(DepartmentManager));
 builder.Services.AddScoped(typeof(DesignationManager));
+builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "EmployeeManagement",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+        });
+});
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
@@ -77,7 +88,8 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
-//app.UseMiddleware<GlobalException>();
+app.UseMiddleware<GlobalException>();
 app.UseAuthorization();
+app.UseCors("EmployeeManagement");
 app.MapControllers();
 app.Run();

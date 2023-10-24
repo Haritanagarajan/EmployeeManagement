@@ -22,7 +22,7 @@ namespace EmployeeManagement.Api.Controllers
         }
         [AllowAnonymous]
         [HttpPost("TokenGenerate")]
-        public IActionResult Login([FromForm] LoginDetailsModel loginDetails)
+        public IActionResult Login(LoginDetailsModel loginDetails)
         {
             var employee = _context.EmployeeMasters.FirstOrDefault(x => x.Username == loginDetails.Username && x.Password == loginDetails.Password);
             if (employee == null)
