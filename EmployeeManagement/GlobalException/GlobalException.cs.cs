@@ -25,6 +25,8 @@ namespace EmployeeManagement.Api.GlobalException
             {
                 await HandleExceptionAsync(httpContext, ex);
             }
+        
+        
         }
 
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)

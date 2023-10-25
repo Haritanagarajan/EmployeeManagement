@@ -43,7 +43,8 @@ namespace EmployeeManagement.Api.Controllers
                     {
                         Username = loginDetails.Username,
                         Password = loginDetails.Password,
-                        Token = jwtToken
+                        Token = jwtToken,
+                        Id = employee.Id
                     };
                     return Ok(response);
                 }
@@ -67,7 +68,7 @@ namespace EmployeeManagement.Api.Controllers
             {
                 userRole = "Admin";
             }
-            else if(username != "Administrator")
+            else if (username != "Administrator")
             {
                 userRole = "Employee";
             }
@@ -81,6 +82,7 @@ namespace EmployeeManagement.Api.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, employee.Username),
+                 new Claim(JwtRegisteredClaimNames.Sub,employee.Id.ToString()),
                 new Claim(ClaimTypes.Role, userRole),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };

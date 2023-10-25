@@ -27,7 +27,7 @@ namespace EmployeeManagement.Api.Controllers
         }
 
         [HttpGet("{Id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Employee,Admin")]
         public IActionResult GetEmployeeById(int Id)
         {
             var response = _employee.GetEmployeeMasterById(Id);
@@ -35,7 +35,7 @@ namespace EmployeeManagement.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Employee")]
         public IActionResult EditEmployeeMaster(int id, [FromBody]EmployeeMaster employee)
         {
             if (id != employee.Id)
@@ -73,8 +73,8 @@ namespace EmployeeManagement.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
-        public IActionResult DeleteEmployeeMaster(int id,EmployeeMaster employee)
+        [Authorize(Roles ="Admin")]
+        public IActionResult DeleteEmployeeMaster(int id, [FromBody]EmployeeMaster employee)
         {
             if (id != employee.Id)
             {
