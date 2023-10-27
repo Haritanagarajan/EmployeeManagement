@@ -49,6 +49,8 @@ namespace EmployeeManagement.Api.Controllers
             }
 
             _designationManager.EditDesignationMaster(designation);
+            _designationManager.Save();
+
 
             var response = new Responce
             {
@@ -62,6 +64,8 @@ namespace EmployeeManagement.Api.Controllers
         public IActionResult CreateDesignationMaster(DesignationMaster designation)
         {
             _designationManager.CreateDesignationMaster(designation);
+            _designationManager.Save();
+
             var response = new Responce
             {
                 Status = "Success",
@@ -84,6 +88,8 @@ namespace EmployeeManagement.Api.Controllers
                 return Ok(failer);
             }
             _designationManager.DeleteDesignationMaster(designation);
+            _designationManager.Save();
+
             var response = new Responce
             {
                 Status = "Success",

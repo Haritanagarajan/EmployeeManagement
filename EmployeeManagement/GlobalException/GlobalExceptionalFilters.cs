@@ -23,8 +23,6 @@ namespace EmployeeManagement.Api.GlobalException
                 var statuscode = context.HttpContext.Response.StatusCode;
 
 
-                //int statusCode;
-
                 var error = new ErrorResponse
                 {
                     Success = false,
@@ -48,13 +46,6 @@ namespace EmployeeManagement.Api.GlobalException
                         error.Message = "success";
                         break;
 
-                    //case bool _ when exception is InvalidOperationException:
-                    //    statusCode = (int)HttpStatusCode.BadRequest;
-                    //    break;
-
-                    //case bool _ when exception is InvalidOperationException:
-                    //    statusCode = (int)HttpStatusCode.BadRequest;
-                    //    break;
                     default:
                         error.Message = "Internal Server Error ";
                         break;

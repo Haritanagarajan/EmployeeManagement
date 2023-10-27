@@ -49,6 +49,8 @@ namespace EmployeeManagement.Api.Controllers
             }
 
             _departmentManager.EditDepartmentMaster(department);
+            _departmentManager.Save();
+
 
             var response = new Responce
             {
@@ -62,6 +64,8 @@ namespace EmployeeManagement.Api.Controllers
         public IActionResult CreateDepartmentMaster(DepartmentMaster department)
         {
             _departmentManager.CreateDepartmentMaster(department);
+            _departmentManager.Save();
+
             var response = new Responce
             {
                 Status = "Success",
@@ -84,6 +88,8 @@ namespace EmployeeManagement.Api.Controllers
                 return Ok(failer);
             }
             _departmentManager.DeleteDepartmentMaster(department);
+            _departmentManager.Save();
+
             var response = new Responce
             {
                 Status = "Success",

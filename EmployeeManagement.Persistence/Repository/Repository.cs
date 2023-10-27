@@ -35,20 +35,44 @@ namespace EmployeeManagement.Persistence.Repository
         public void Add(T entity)
         {
             _entity.Add(entity);
-            _context.SaveChanges();
         }
         public void Update(T entity)
         {
             //can use EntityState.Modified (or) _entity.Update(entity);
 
             _context.Entry(entity).State = EntityState.Modified;
-            _context.SaveChanges();
         }
 
         public void Delete(T entity)
         {
             _entity.Remove(entity);
+        }
+
+        public void Save()
+        {
             _context.SaveChanges();
         }
+
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
+
+
 }

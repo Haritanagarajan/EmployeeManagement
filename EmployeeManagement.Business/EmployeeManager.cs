@@ -39,5 +39,9 @@ namespace EmployeeManagement.Business
             return _employeeMaster.GetById(Id);
         }
 
+        public void Save()
+        {
+            _employeeMaster.Save();
+        }
     }
 }

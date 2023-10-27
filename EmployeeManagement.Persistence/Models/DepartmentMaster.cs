@@ -7,7 +7,7 @@ public partial class DepartmentMaster
 {
     public int Id { get; set; }
 
-    public string? Departmentname { get; set; }
+    public string Departmentname { get; set; }
 
     public virtual ICollection<DesignationMaster> DesignationMasters { get; set; } = new List<DesignationMaster>();
 

@@ -65,7 +65,9 @@ builder.Services.AddDbContext<DbEmployeeManagementContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("mvcConnection")));
 //DI Container
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+Console.WriteLine(typeof(IRepository<>));
 builder.Services.AddScoped(typeof(EmployeeManager));
+Console.WriteLine(typeof(EmployeeManager));
 builder.Services.AddScoped(typeof(DepartmentManager));
 builder.Services.AddScoped(typeof(DesignationManager));
 builder.Services.AddCors();
@@ -93,3 +95,5 @@ app.UseAuthorization();
 app.UseCors("EmployeeManagement");
 app.MapControllers();
 app.Run();
+
+

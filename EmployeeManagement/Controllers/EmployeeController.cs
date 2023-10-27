@@ -27,7 +27,7 @@ namespace EmployeeManagement.Api.Controllers
         }
 
         [HttpGet("{Id}")]
-        [Authorize(Roles = "Employee,Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetEmployeeById(int Id)
         {
             var response = _employee.GetEmployeeMasterById(Id);
@@ -50,6 +50,7 @@ namespace EmployeeManagement.Api.Controllers
             }
 
             _employee.EditEmployeeMaster(employee);
+            _employee.Save();
 
             var response = new Responce
             {
@@ -64,6 +65,7 @@ namespace EmployeeManagement.Api.Controllers
         public IActionResult CreateEmployeeMaster(EmployeeMaster employee)
         {
             _employee.CreateEmployeeMaster(employee);
+            _employee.Save();
             var response = new Responce
             {
                 Status = "Success",
@@ -87,6 +89,7 @@ namespace EmployeeManagement.Api.Controllers
                 return Ok(failer);
             }
             _employee.DeleteEmployeeMaster(employee);
+            _employee.Save();
             var response = new Responce
             {
                 Status = "Success",
