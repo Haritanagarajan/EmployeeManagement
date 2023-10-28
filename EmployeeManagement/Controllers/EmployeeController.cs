@@ -27,7 +27,7 @@ namespace EmployeeManagement.Api.Controllers
         }
 
         [HttpGet("{Id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Employee")]
         public IActionResult GetEmployeeById(int Id)
         {
             var response = _employee.GetEmployeeMasterById(Id);
