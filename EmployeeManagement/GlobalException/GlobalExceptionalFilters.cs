@@ -22,7 +22,6 @@ namespace EmployeeManagement.Api.GlobalException
             {
                 var statuscode = context.HttpContext.Response.StatusCode;
 
-
                 var error = new ErrorResponse
                 {
                     Success = false,

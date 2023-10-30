@@ -3,6 +3,7 @@ using EmployeeManagement.Persistence.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EmployeeManagement.Api.Controllers
 {
@@ -18,6 +19,7 @@ namespace EmployeeManagement.Api.Controllers
         {
             _departmentManager = departmentManager;
         }
+
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
@@ -77,7 +79,7 @@ namespace EmployeeManagement.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteDepartmentMaster(int id, DepartmentMaster department)
         {
-            if (id != department.Id)
+        if (id != department.Id)
             {
                 var failer = new Responce
                 {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement.Business
 {
-    public class DepartmentManager
+    public  class DepartmentManager 
     {
         private readonly IRepository<DepartmentMaster> _departmentMaster;
 
@@ -47,6 +47,7 @@ namespace EmployeeManagement.Business
         {
             _departmentMaster.Save();
         }
+
 
     }
 }

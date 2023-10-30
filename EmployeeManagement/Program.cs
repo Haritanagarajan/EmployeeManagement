@@ -93,5 +93,3 @@ app.UseAuthorization();
 app.UseCors("EmployeeManagement");
 app.MapControllers();
 app.Run();
-
-
